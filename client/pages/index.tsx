@@ -1,5 +1,6 @@
 import Head from 'next/head'
-import { Heading } from '@chakra-ui/react'
+
+import Navbar from '@/components/Navbar'
 
 export default function Home() {
   return (
@@ -12,9 +13,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <Heading as="h1" size="4xl" noOfLines={1}>
-          TweetX
-        </Heading>
+        <Navbar />
       </main>
     </>
   )
