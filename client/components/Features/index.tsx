@@ -14,7 +14,7 @@ import Feature from './Feature'
 
 export default function Features() {
   return (
-    <Box as={Container} maxW="7xl" mt={14} p={4}>
+    <Box as={Container} maxW="7xl" my={14} p={4}>
       <Grid
         templateColumns={{
           base: 'repeat(1, 1fr)',
