@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   Avatar,
   AvatarGroup,
-  useBreakpointValue,
 } from '@chakra-ui/react'
 
 import Base from '@/components/Base'
@@ -50,7 +49,7 @@ export default function Login() {
                     key={avatar.name}
                     name={avatar.name}
                     src={avatar.url}
-                    size={useBreakpointValue({ base: 'md', md: 'lg' })}
+                    size={{ base: 'md', md: 'lg' }}
                     position={'relative'}
                     zIndex={2}
                     _before={{
@@ -84,8 +83,8 @@ export default function Login() {
                 bg={'gray.800'}
                 color={'white'}
                 rounded={'full'}
-                minWidth={useBreakpointValue({ base: '44px', md: '60px' })}
-                minHeight={useBreakpointValue({ base: '44px', md: '60px' })}
+                minWidth={{ base: '44px', md: '60px' }}
+                minHeight={{ base: '44px', md: '60px' }}
                 position={'relative'}
                 _before={{
                   content: '""',
