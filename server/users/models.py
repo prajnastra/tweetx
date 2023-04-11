@@ -15,11 +15,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         serialize=False,
         verbose_name="ID",
         unique=True,
-        max_length=30,
+        max_length=100,
     )
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, null=True, default="")
-    last_name = models.CharField(max_length=30, null=True, default="")
+    first_name = models.CharField(max_length=100, null=True, default="")
+    last_name = models.CharField(max_length=100, null=True, default="")
 
     role = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
