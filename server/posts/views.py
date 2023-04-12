@@ -1,6 +1,12 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import PostSerializer
+from .serializers import PostSerializer, PublicPostSerializer
+from .models import Posts
+
+
+class ListAllPostAPIView(ListAPIView):
+    serializer_class = PublicPostSerializer
+    queryset = Posts.objects.all()
 
 
 class PostCreateAPIView(CreateAPIView):
