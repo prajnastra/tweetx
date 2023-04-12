@@ -17,9 +17,7 @@ class Posts(models.Model):
         max_length=100,
     )
     content = models.TextField(default="")
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
