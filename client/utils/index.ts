@@ -1,3 +1,5 @@
+export const API = process.env.API || ''
+
 export const avatars = [
   {
     name: 'Ryan Florence',

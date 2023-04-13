@@ -1,3 +1,5 @@
+import useSWRMutation from 'swr/mutation'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import {
   Box,
   Flex,
@@ -10,12 +12,33 @@ import {
   SimpleGrid,
   Avatar,
   AvatarGroup,
+  FormControl,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 
 import Base from '@/components/Base'
 import { avatars } from '@/utils'
+import { registerAPI } from '@/api'
+
+interface Inputs {
+  first_name: string
+  last_name: string
+  email: string
+  password: string
+}
 
 export default function Register() {
+  const { trigger } = useSWRMutation('/api/register', registerAPI)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    trigger(data)
+  }
+
   return (
     <Base>
       <Box position={'relative'}>
@@ -132,45 +155,98 @@ export default function Register() {
                 of our rockstar engineering team and skyrocket your career!
               </Text>
             </Stack>
-            <Box as={'form'} mt={10}>
+            <Box as={'form'} mt={10} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
-                <Input
-                  type="text"
-                  placeholder="Name"
-                  bg={'gray.100'}
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
+                <FormControl
+                  id="first-name-register"
+                  isInvalid={errors.first_name ? true : false}
+                >
+                  <Input
+                    type="text"
+                    placeholder="First Name"
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('first_name', {
+                      required: 'First name is required',
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.first_name && errors.first_name.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  bg={'gray.100'}
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
+                <FormControl
+                  id="last-name-register"
+                  isInvalid={errors.last_name ? true : false}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Last Name"
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('last_name', {
+                      required: 'Last name is required',
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.last_name && errors.last_name.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                <Input
-                  type="password"
-                  bg={'gray.100'}
-                  placeholder="Password"
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
+                <FormControl id="email" isInvalid={errors.email ? true : false}>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('email', {
+                      required: 'Email is required',
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.email && errors.email.message}
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl
+                  id="password-register"
+                  isInvalid={errors.password ? true : false}
+                >
+                  <Input
+                    type="password"
+                    bg={'gray.100'}
+                    placeholder="Password"
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('password', {
+                      required: 'Password is required',
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.password && errors.password.message}
+                  </FormErrorMessage>
+                </FormControl>
               </Stack>
 
               <Button
                 fontFamily={'heading'}
                 mt={8}
+                type="submit"
                 w={'full'}
                 colorScheme="purple"
               >
