@@ -1,5 +1,8 @@
+import { useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
+import Router from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import swal from 'sweetalert'
 import {
   Box,
   Flex,
@@ -28,7 +31,10 @@ interface Inputs {
 }
 
 export default function Register() {
-  const { trigger } = useSWRMutation('/api/register', registerAPI)
+  const { trigger, isMutating, data, reset } = useSWRMutation(
+    '/api/register',
+    registerAPI
+  )
   const {
     register,
     handleSubmit,
@@ -38,6 +44,20 @@ export default function Register() {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     trigger(data)
   }
+
+  useEffect(() => {
+    if (data) {
+      swal(
+        'Congratulations!',
+        'Account created. Please click ok to login!',
+        'success'
+      ).then((value) => {
+        if (value) {
+          Router.push('/login')
+        }
+      })
+    }
+  }, [])
 
   return (
     <Base>
@@ -249,6 +269,7 @@ export default function Register() {
                 type="submit"
                 w={'full'}
                 colorScheme="purple"
+                isLoading={isMutating}
               >
                 Submit
               </Button>
