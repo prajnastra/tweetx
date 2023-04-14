@@ -39,7 +39,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
