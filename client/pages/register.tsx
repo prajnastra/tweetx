@@ -57,7 +57,7 @@ export default function Register() {
         }
       })
     }
-  }, [])
+  }, [data])
 
   return (
     <Base>
