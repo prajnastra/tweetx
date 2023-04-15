@@ -1,3 +1,6 @@
+import { signIn } from 'next-auth/react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+
 import {
   Box,
   Flex,
@@ -10,12 +13,34 @@ import {
   SimpleGrid,
   Avatar,
   AvatarGroup,
+  FormControl,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 
 import Base from '@/components/Base'
 import { avatars } from '@/utils'
 
+interface Inputs {
+  email: string
+  password: string
+}
+
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>()
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await signIn('api-auth', {
+      email: data.email,
+      password: data.password,
+      callbackUrl: `/dashboard`,
+    })
+    return
+  }
+
   return (
     <Base>
       <Box position={'relative'}>
@@ -132,32 +157,53 @@ export default function Login() {
                 of our rockstar engineering team and skyrocket your career!
               </Text>
             </Stack>
-            <Box as={'form'} mt={10}>
+            <Box as={'form'} mt={10} onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  bg={'gray.100'}
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
+                <FormControl
+                  id="email-login"
+                  isInvalid={errors.email ? true : false}
+                >
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('email', { required: 'Email is required' })}
+                  />
+                  <FormErrorMessage>
+                    {errors.email && errors.email.message}
+                  </FormErrorMessage>
+                </FormControl>
 
-                <Input
-                  type="password"
-                  bg={'gray.100'}
-                  placeholder="Password"
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
+                <FormControl
+                  id="password-login"
+                  isInvalid={errors.password ? true : false}
+                >
+                  <Input
+                    type="password"
+                    bg={'gray.100'}
+                    placeholder="Password"
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                    {...register('password', {
+                      required: 'Password is required',
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.password && errors.password.message}
+                  </FormErrorMessage>
+                </FormControl>
               </Stack>
 
               <Button
+                type="submit"
                 fontFamily={'heading'}
                 mt={8}
                 w={'full'}
@@ -166,7 +212,6 @@ export default function Login() {
                 Submit
               </Button>
             </Box>
-            form
           </Stack>
         </Container>
       </Box>

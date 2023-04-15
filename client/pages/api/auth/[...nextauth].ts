@@ -6,13 +6,10 @@ import axios, { AxiosResponse } from 'axios'
 interface AuthResponse {
   id: string
   first_name: string
-  last_name?: string
-  avatar: string
+  last_name: string
   email: string
-  role: number
   access: string
   refresh: string
-  otp_verification: boolean
 }
 
 const refreshAccessToken = async (token: any) => {
@@ -46,8 +43,6 @@ export const authOptions = {
       id: 'api-auth',
       name: 'Server Auth',
       credentials: {
-        first_name: { label: 'first_name', type: 'text' },
-        last_name: { label: 'last_name', type: 'text' },
         email: { label: 'email', type: 'text' },
         password: { label: 'password', type: 'text' },
       },
@@ -56,7 +51,7 @@ export const authOptions = {
           `${process.env.API}/api/login`,
           credentials
         )
-
+        console.log(user.status)
         if (user.status === 200) {
           return {
             id: user.data.id,
