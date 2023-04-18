@@ -14,7 +14,7 @@ export interface SessionExtended extends Session {
     first_name: string
     last_name: string
     email: string
-    user_type?: string
+    user_type: string
   }
 }
 

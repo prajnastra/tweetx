@@ -26,10 +26,12 @@ interface Props {
 }
 
 export default function Dashboard({ session }: Props) {
-  console.log({ session })
   return (
     <Base session={session} signOut={signOut}>
-      <ProfileCard name={session.user.first_name} user_type="ADMIN" />
+      <ProfileCard
+        name={session.user.first_name}
+        user_type={session.user.user_type}
+      />
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} mb={'10rem'}>
         <Card title="Settings" Icon={SettingsIcon}>
           <Alert status="info">

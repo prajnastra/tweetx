@@ -7,6 +7,7 @@ interface AuthResponse {
   id: string
   first_name: string
   last_name: string
+  role: number
   email: string
   access: string
   refresh: string
@@ -58,6 +59,7 @@ export const authOptions = {
             email: user.data.email,
             first_name: user.data.first_name,
             last_name: user.data.last_name,
+            user_type: user.data.role === 0 ? 'CUSTOMER' : 'ADMIN',
             tokens: {
               access: user.data.access,
               refresh: user.data.refresh,
@@ -104,6 +106,7 @@ export const authOptions = {
           first_name: token.first_name,
           last_name: token.last_name,
           email: token.email,
+          user_type: token.user_type,
         }
       } else {
         session.user = {
@@ -111,6 +114,7 @@ export const authOptions = {
           first_name: token.first_name,
           last_name: token.last_name,
           email: token.email,
+          user_type: token.user_type,
         }
       }
 
