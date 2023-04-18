@@ -31,7 +31,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -164,6 +164,7 @@ export default function Login() {
                 <FormControl
                   id="email-login"
                   isInvalid={errors.email ? true : false}
+                  isDisabled={isSubmitting}
                 >
                   <Input
                     type="email"
@@ -184,6 +185,7 @@ export default function Login() {
                 <FormControl
                   id="password-login"
                   isInvalid={errors.password ? true : false}
+                  isDisabled={isSubmitting}
                 >
                   <Input
                     type="password"
@@ -210,6 +212,7 @@ export default function Login() {
                 mt={8}
                 w={'full'}
                 colorScheme="purple"
+                isLoading={isSubmitting}
               >
                 Submit
               </Button>
