@@ -1,4 +1,6 @@
-import { signIn } from 'next-auth/react'
+import type { GetServerSideProps } from 'next'
+
+import { signIn, getSession } from 'next-auth/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import {
@@ -217,4 +219,21 @@ export default function Login() {
       </Box>
     </Base>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { session },
+  }
 }
