@@ -1,5 +1,8 @@
+import type { GetServerSideProps } from 'next'
+
+import { signOut, getSession } from 'next-auth/react'
+
 import {
-  Container,
   SimpleGrid,
   Alert,
   AlertIcon,
@@ -13,14 +16,20 @@ import {
   CopyIcon,
 } from '@chakra-ui/icons'
 
-import Base from '@/components/Base'
+import { LoggedBase as Base } from '@/components/Base'
 import Card from '@/components/Card'
 import ProfileCard from '@/components/ProfileCard'
+import { SessionExtended } from '@/types'
 
-export default function Dashboard() {
+interface Props {
+  session: SessionExtended
+}
+
+export default function Dashboard({ session }: Props) {
+  console.log({ session })
   return (
-    <Base>
-      <ProfileCard name="Abhijit" user_type="ADMIN" />
+    <Base session={session} signOut={signOut}>
+      <ProfileCard name={session.user.first_name} user_type="ADMIN" />
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} mb={'10rem'}>
         <Card title="Settings" Icon={SettingsIcon}>
           <Alert status="info">
@@ -31,26 +40,26 @@ export default function Dashboard() {
 
         <Card title="Profile details" Icon={InfoIcon}>
           <Text fontWeight={600} color={'gray.500'}>
-            Id: {'dfdfjh2323'}
+            Id: {session.user.id}
             <IconButton
               aria-label="Copy id"
               icon={<CopyIcon />}
               size="xs"
               ml={2}
               onClick={() => {
-                navigator.clipboard.writeText('abhijit@example.com')
+                navigator.clipboard.writeText(session.user.id)
               }}
             />
           </Text>
           <Text fontWeight={600} color={'gray.500'}>
-            Email: {'abhijit@example.com'}
+            Email: {session.user.email}
             <IconButton
               aria-label="Copy email"
               icon={<CopyIcon />}
               size="xs"
               ml={2}
               onClick={() => {
-                navigator.clipboard.writeText('abhijit@example.com')
+                navigator.clipboard.writeText(session.user.email)
               }}
             />
           </Text>
@@ -65,4 +74,21 @@ export default function Dashboard() {
       </SimpleGrid>
     </Base>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session: any = await getSession(context)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { session },
+  }
 }

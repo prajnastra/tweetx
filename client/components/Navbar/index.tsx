@@ -22,18 +22,11 @@ import { FaTwitter } from 'react-icons/fa'
 import DesktopNav from './DesktopNav'
 import MobileNav from './MobileNav'
 
+import { SessionExtended } from '../../types'
+
 interface NavProps {
   signOut?: () => any
-  session?: {
-    token: string
-    expires: string
-    user: {
-      id: string
-      name: string
-      email: string
-      user_type: UserTypes
-    }
-  } | null
+  session?: SessionExtended | null
 }
 
 const Navbar = ({ session, signOut }: NavProps) => {

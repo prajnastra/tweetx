@@ -7,13 +7,14 @@ export enum UserTypes {
 }
 
 export interface SessionExtended extends Session {
-  token: string
+  accessToken: string
   expires: string
   user: {
     id: string
-    name: string
+    first_name: string
+    last_name: string
     email: string
-    user_type: UserTypes
+    user_type?: string
   }
 }
 
