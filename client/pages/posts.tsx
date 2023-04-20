@@ -2,8 +2,7 @@ import type { GetServerSideProps } from 'next'
 
 import { signOut, getSession } from 'next-auth/react'
 
-import { Box, SimpleGrid, Stack, Text } from '@chakra-ui/react'
-import { CalendarIcon } from '@chakra-ui/icons'
+import { Box, Stack } from '@chakra-ui/react'
 
 import { LoggedBase as Base } from '@/components/Base'
 import { PostCard } from '@/components/Card'
@@ -28,9 +27,7 @@ export default function Posts({ session }: Props) {
           ))}
         </Box>
 
-        <Box flex={1} border="1px solid red">
-          df
-        </Box>
+        <Box flex={1}>df</Box>
       </Stack>
     </Base>
   )
