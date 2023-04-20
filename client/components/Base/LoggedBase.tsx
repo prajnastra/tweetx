@@ -7,16 +7,23 @@ import { SessionExtended } from '../../types'
 
 interface Props {
   signOut: () => any
+  hideFooter?: boolean
   session: SessionExtended | null
   children: ReactNode
 }
 
-export function LoggedBase({ children, session, signOut }: Props) {
+export function LoggedBase({
+  children,
+  session,
+  signOut,
+  hideFooter = false,
+}: Props) {
   return (
     <>
       <Navbar session={session} signOut={signOut} />
       <Container maxW={'7xl'}>{children}</Container>
-      <Footer />
+
+      {!hideFooter && <Footer />}
     </>
   )
 }

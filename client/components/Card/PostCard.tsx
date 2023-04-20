@@ -6,42 +6,36 @@ import {
   HStack,
   Heading,
   useColorModeValue,
-  LayoutProps,
-  ComponentWithAs,
 } from '@chakra-ui/react'
 
 interface Props {
-  children: ReactNode
-  maxW?: LayoutProps['maxW']
-  minH?: LayoutProps['minH']
+  children?: ReactNode
   title?: string
   subTitle?: string
-  Icon?: ComponentWithAs<'svg'>
+  description?: string
 }
 
-export default function Card({
-  children,
-  maxW,
-  minH = '400px',
+export default function PostCard({
   title,
   subTitle,
-  Icon,
+  children,
+  description,
 }: Props) {
   return (
     <Box
       w={'full'}
-      maxW={maxW}
-      minH={minH}
+      minH={'200px'}
       bg={useColorModeValue('white', 'gray.800')}
-      boxShadow={'2xl'}
+      border="1px solid"
+      borderColor={useColorModeValue('gray.200', 'gray.700')}
       rounded={'md'}
       overflow={'hidden'}
       p={6}
+      mb={10}
     >
       <Stack mb={title ? 5 : 0}>
         {title && (
           <HStack alignItems={'center'}>
-            {Icon && <Icon fontSize={'1.2rem'} />}
             <Heading
               fontSize={'2xl'}
               fontFamily={'body'}
@@ -51,15 +45,18 @@ export default function Card({
             </Heading>
           </HStack>
         )}
+
         {subTitle && (
           <Text fontWeight={600} color={'gray.500'} fontSize="md">
             {subTitle}
           </Text>
         )}
       </Stack>
+
+      <Text fontWeight={600} color={'gray.500'}>
+        {description}
+      </Text>
       {children}
     </Box>
   )
 }
-
-export { default as PostCard } from './PostCard'
