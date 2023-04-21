@@ -29,6 +29,7 @@ export default function CreatePost({ accessToken }: Props) {
   const {
     register,
     handleSubmit,
+    reset: resetForm,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
@@ -49,6 +50,7 @@ export default function CreatePost({ accessToken }: Props) {
     if (data) {
       swal('Congratulations!', 'Tweet posted...', 'success')
       reset()
+      resetForm()
     }
   }, [data])
 
