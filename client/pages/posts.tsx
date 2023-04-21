@@ -4,6 +4,7 @@ import { signOut, getSession } from 'next-auth/react'
 
 import { Box, Stack } from '@chakra-ui/react'
 
+import CreatePost from '@/components/CreatePost'
 import { LoggedBase as Base } from '@/components/Base'
 import { PostCard } from '@/components/Card'
 
@@ -27,7 +28,9 @@ export default function Posts({ session }: Props) {
           ))}
         </Box>
 
-        <Box flex={1}>df</Box>
+        <Box flex={1}>
+          <CreatePost />
+        </Box>
       </Stack>
     </Base>
   )
