@@ -31,3 +31,13 @@ export interface ProductCart {
   updatedAt: string
   count: number
 }
+
+export interface Post {
+  id: string
+  content: string
+  created_at: string
+  owner_name: string
+  owner_id: string
+}
+
+export type Posts = Array<Post>

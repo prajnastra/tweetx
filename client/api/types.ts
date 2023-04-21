@@ -9,3 +9,7 @@ export interface CreatePostPayload {
   content: string
   accessToken: string
 }
+
+export interface Payload {
+  accessToken: string
+}
