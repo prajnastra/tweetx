@@ -29,7 +29,7 @@ export default function Posts({ session }: Props) {
         </Box>
 
         <Box flex={1}>
-          <CreatePost />
+          <CreatePost accessToken={session.accessToken} />
         </Box>
       </Stack>
     </Base>

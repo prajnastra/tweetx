@@ -1,4 +1,7 @@
+import { useEffect } from 'react'
+import useSWRMutation from 'swr/mutation'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import swal from 'sweetalert'
 
 import {
   Box,
@@ -11,20 +14,43 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
+import { createPostAPI } from '@/api'
+
 interface Inputs {
   content: string
+  accessToken: string
 }
 
-export default function CreatePost() {
+interface Props {
+  accessToken: string
+}
+
+export default function CreatePost({ accessToken }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>()
+    formState: { errors, isSubmitting },
+  } = useForm<Inputs>({
+    defaultValues: {
+      accessToken,
+    },
+  })
+
+  const { trigger, isMutating, data, reset } = useSWRMutation(
+    '/api/post/create',
+    createPostAPI
+  )
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data)
+    trigger(data)
   }
+
+  useEffect(() => {
+    if (data) {
+      swal('Congratulations!', 'Tweet posted...', 'success')
+      reset()
+    }
+  }, [data])
 
   return (
     <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
@@ -45,7 +71,7 @@ export default function CreatePost() {
 
             <Textarea
               placeholder="Write something"
-              isDisabled={false}
+              isDisabled={isMutating}
               {...register('content', { required: 'Tweet is required' })}
             />
 
@@ -55,7 +81,11 @@ export default function CreatePost() {
           </FormControl>
 
           <Stack spacing={10}>
-            <Button colorScheme="purple" type="submit">
+            <Button
+              colorScheme="purple"
+              type="submit"
+              isLoading={isMutating || isSubmitting}
+            >
               Post
             </Button>
           </Stack>

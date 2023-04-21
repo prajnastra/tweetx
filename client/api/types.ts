@@ -4,3 +4,8 @@ export interface RegisterPayload {
   email: string
   password: string
 }
+
+export interface CreatePostPayload {
+  content: string
+  accessToken: string
+}
