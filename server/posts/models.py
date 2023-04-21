@@ -9,7 +9,7 @@ User = get_user_model()
 class Posts(models.Model):
     id = models.CharField(
         primary_key=True,
-        default=uuid.uuid4().hex,
+        default=uuid.uuid4,
         editable=False,
         serialize=False,
         verbose_name="ID",
