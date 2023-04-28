@@ -55,7 +55,7 @@ export default function CreatePost({ accessToken }: Props) {
   }, [data])
 
   return (
-    <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+    <Stack spacing={8} mx={'auto'} maxW={'lg'} py={4} px={6}>
       <Box
         as="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -86,6 +86,7 @@ export default function CreatePost({ accessToken }: Props) {
             <Button
               colorScheme="purple"
               type="submit"
+              rounded="full"
               isLoading={isMutating || isSubmitting}
             >
               Post
