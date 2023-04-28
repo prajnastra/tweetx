@@ -2,8 +2,10 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
 
-from users.serializers import CreateUserSerializer
+from users.serializers import CreateUserSerializer, PublicUserSerializer
 
 User = get_user_model()
 
@@ -24,3 +26,12 @@ class UserSignUpView(APIView):
             return Response(
                 serialized.errors, status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class ListAllUsersAPIView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PublicUserSerializer
+
+    def get_queryset(self):
+        request_user = self.request.user
+        return User.objects.exclude(id=request_user.id)
