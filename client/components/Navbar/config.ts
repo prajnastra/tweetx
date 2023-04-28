@@ -75,5 +75,9 @@ export const NAV_ITEMS: NavItem = {
       label: 'Social',
       href: '/posts',
     },
+    {
+      label: 'People',
+      href: '/people',
+    },
   ],
 }

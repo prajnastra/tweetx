@@ -85,7 +85,6 @@ export const authOptions = {
         return {
           ...token,
           ...user,
-          expiresAt: Date.now() + 9000,
         }
       }
 

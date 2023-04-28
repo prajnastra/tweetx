@@ -63,3 +63,4 @@ export default function Card({
 }
 
 export { default as PostCard } from './PostCard'
+export { default as UserCard } from './UserCard'
