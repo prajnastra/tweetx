@@ -1,12 +1,14 @@
 import { ReactNode } from 'react'
 import {
   Box,
+  IconButton,
   Text,
   Stack,
   HStack,
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'
 
 interface Props {
   children?: ReactNode
@@ -53,10 +55,16 @@ export default function PostCard({
         )}
       </Stack>
 
-      <Text fontWeight={600} color={'gray.500'}>
+      <Text fontWeight={600} color={'gray.500'} mb={3}>
         {description}
       </Text>
       {children}
+
+      <Stack direction={'row'} gap={5}>
+        <IconButton variant="ghost" aria-label="Like" icon={<FaThumbsUp />} />
+        <IconButton variant="ghost" aria-label="Comment" icon={<FaComment />} />
+        <IconButton variant="ghost" aria-label="Share" icon={<FaShare />} />
+      </Stack>
     </Box>
   )
 }
