@@ -28,7 +28,7 @@ class PostLikeAPIView(APIView):
         liked_object = get_object_or_404(Posts, pk=id)
         if request.user in liked_object.likes.all():
             liked_object.likes.remove(request.user)
-            return Response({'liked': False}, status=status.HTTP_200_OK)
+            return Response({"liked": False}, status=status.HTTP_200_OK)
         else:
             liked_object.likes.add(request.user)
-            return Response({'liked': True}, status=status.HTTP_200_OK)
+            return Response({"liked": True}, status=status.HTTP_200_OK)
