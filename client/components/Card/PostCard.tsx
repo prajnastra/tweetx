@@ -5,6 +5,7 @@ import swal from 'sweetalert'
 import {
   Box,
   IconButton,
+  Button,
   Text,
   Stack,
   HStack,
@@ -14,30 +15,18 @@ import {
 import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'
 
 import { postLikeToggleAPI } from '@/api'
+import { Post } from '@/types'
 
 interface Props {
-  children?: ReactNode
-  title?: string
-  subTitle?: string
-  description?: string
-  id: string
   access: string
+  post: Post
 }
 
-export default function PostCard({
-  id,
-  title,
-  subTitle,
-  children,
-  description,
-  access,
-}: Props) {
-  const {
-    trigger: triggerLike,
-    isMutating,
-    data,
-    reset,
-  } = useSWRMutation('/api/posts/like', postLikeToggleAPI)
+export default function PostCard({ access, post }: Props) {
+  const { trigger: triggerLike, isMutating } = useSWRMutation(
+    '/api/posts/like',
+    postLikeToggleAPI
+  )
 
   return (
     <Box
@@ -51,44 +40,37 @@ export default function PostCard({
       p={6}
       mb={10}
     >
-      <Stack mb={title ? 5 : 0}>
-        {title && (
-          <HStack alignItems={'center'}>
-            <Heading
-              fontSize={'2xl'}
-              fontFamily={'body'}
-              textTransform={'capitalize'}
-            >
-              {title}
-            </Heading>
-          </HStack>
-        )}
-
-        {subTitle && (
-          <Text fontWeight={600} color={'gray.500'} fontSize="md">
-            {subTitle}
-          </Text>
-        )}
+      <Stack mb={5}>
+        <HStack alignItems={'center'}>
+          <Heading
+            fontSize={'2xl'}
+            fontFamily={'body'}
+            textTransform={'capitalize'}
+          >
+            {post.owner_name}
+          </Heading>
+        </HStack>
       </Stack>
 
       <Text fontWeight={600} color={'gray.500'} mb={3}>
-        {description}
+        {post.content}
       </Text>
-      {children}
 
       <Stack direction={'row'} gap={5}>
-        <IconButton
+        <Button
           variant="ghost"
           aria-label="Like"
-          icon={<FaThumbsUp />}
           isLoading={isMutating}
           onClick={() =>
             triggerLike({
-              id,
+              id: post.id,
               accessToken: access,
             })
           }
-        />
+          rightIcon={<FaThumbsUp />}
+        >
+          {post.likes.length}
+        </Button>
         <IconButton variant="ghost" aria-label="Comment" icon={<FaComment />} />
         <IconButton variant="ghost" aria-label="Share" icon={<FaShare />} />
       </Stack>

@@ -38,6 +38,7 @@ export interface Post {
   created_at: string
   owner_name: string
   owner_id: string
+  likes: Array<string>
 }
 
 export type Posts = Array<Post>
