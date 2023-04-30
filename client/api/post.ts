@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { API } from '@/utils'
 import { Posts } from '@/types'
-import { CreatePostPayload } from './types'
+import { CreatePostPayload, PostLikePayload } from './types'
 
 export const createPostAPI = async (
   url: string,
@@ -30,4 +30,20 @@ export const getAllPostsAPI = async (
         Authorization: `Bearer ${token}`,
       },
     })
+    .then((res) => res.data)
+
+export const postLikeToggleAPI = async (
+  url: string,
+  { arg }: { arg: PostLikePayload }
+) =>
+  await axios
+    .post(
+      `${API}${url}/${arg.id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${arg.accessToken}`,
+        },
+      }
+    )
     .then((res) => res.data)

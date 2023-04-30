@@ -30,9 +30,11 @@ export default function Posts({ session }: Props) {
           {data &&
             data.map((post) => (
               <PostCard
+                id={post.id}
                 key={post.id}
                 title={post.owner_name}
                 description={post.content}
+                access={session.accessToken}
               />
             ))}
         </Box>

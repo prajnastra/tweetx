@@ -14,6 +14,10 @@ export interface Payload {
   accessToken: string
 }
 
+export interface PostLikePayload extends Payload {
+  id: string
+}
+
 export interface User {
   first_name: string
   last_name: string

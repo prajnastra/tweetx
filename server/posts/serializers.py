@@ -15,6 +15,7 @@ class PublicPostSerializer(ModelSerializer):
             "created_at",
             "owner_name",
             "owner_id",
+            "likes",
         )
 
 

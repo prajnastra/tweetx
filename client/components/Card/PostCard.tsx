@@ -1,4 +1,7 @@
 import { ReactNode } from 'react'
+import useSWRMutation from 'swr/mutation'
+import swal from 'sweetalert'
+
 import {
   Box,
   IconButton,
@@ -10,19 +13,32 @@ import {
 } from '@chakra-ui/react'
 import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'
 
+import { postLikeToggleAPI } from '@/api'
+
 interface Props {
   children?: ReactNode
   title?: string
   subTitle?: string
   description?: string
+  id: string
+  access: string
 }
 
 export default function PostCard({
+  id,
   title,
   subTitle,
   children,
   description,
+  access,
 }: Props) {
+  const {
+    trigger: triggerLike,
+    isMutating,
+    data,
+    reset,
+  } = useSWRMutation('/api/posts/like', postLikeToggleAPI)
+
   return (
     <Box
       w={'full'}
@@ -61,7 +77,18 @@ export default function PostCard({
       {children}
 
       <Stack direction={'row'} gap={5}>
-        <IconButton variant="ghost" aria-label="Like" icon={<FaThumbsUp />} />
+        <IconButton
+          variant="ghost"
+          aria-label="Like"
+          icon={<FaThumbsUp />}
+          isLoading={isMutating}
+          onClick={() =>
+            triggerLike({
+              id,
+              accessToken: access,
+            })
+          }
+        />
         <IconButton variant="ghost" aria-label="Comment" icon={<FaComment />} />
         <IconButton variant="ghost" aria-label="Share" icon={<FaShare />} />
       </Stack>

@@ -21,6 +21,7 @@ class Posts(models.Model):
         User, on_delete=models.CASCADE, related_name="user"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='liked_objects')
 
     def __str__(self):
         return self.id
