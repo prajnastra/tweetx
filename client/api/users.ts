@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { API } from '@/utils'
-import { User } from './types'
+import { User, FollowPayload } from './types'
 
 export const getAllUsersAPI = async (
   url: string,
@@ -13,4 +13,20 @@ export const getAllUsersAPI = async (
         Authorization: `Bearer ${token}`,
       },
     })
+    .then((res) => res.data)
+
+export const followToggleAPI = async (
+  url: string,
+  { arg }: { arg: FollowPayload }
+) =>
+  await axios
+    .post(
+      `${API}${url}/${arg.id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${arg.accessToken}`,
+        },
+      }
+    )
     .then((res) => res.data)

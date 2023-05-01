@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -35,3 +36,20 @@ class ListAllUsersAPIView(ListAPIView):
     def get_queryset(self):
         request_user = self.request.user
         return User.objects.exclude(id=request_user.id)
+
+
+class ToggleFollowAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, id):
+        user = get_object_or_404(User, pk=id)
+        if (request.user in user.followers.all()) and (
+            user in request.user.following.all()
+        ):
+            user.followers.remove(request.user)
+            request.user.following.remove(user)
+            return Response({"Following": False}, status=status.HTTP_200_OK)
+        else:
+            user.followers.add(request.user)
+            request.user.following.add(user)
+            return Response({"Following": True}, status=status.HTTP_200_OK)

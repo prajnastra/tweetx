@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from 'next'
 
+import { useState } from 'react'
 import useSWR from 'swr'
 import { signOut, getSession } from 'next-auth/react'
 
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export default function People({ session }: Props) {
-  const { data, isLoading } = useSWR('/api/users/all', (url) =>
+  const { data, isLoading, mutate } = useSWR('/api/users/all', (url) =>
     getAllUsersAPI(url, session.accessToken)
   )
 
@@ -27,7 +28,16 @@ export default function People({ session }: Props) {
         <Box flex={2} overflowY="auto" maxHeight="85vh" p={5}>
           {isLoading && <Loader minH="200px" />}
 
-          {data && data.map((user) => <UserCard key={user.id} user={user} />)}
+          {data &&
+            data.map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                access={session.accessToken}
+                current_user={session.user.id}
+                refetch={mutate}
+              />
+            ))}
         </Box>
       </Stack>
     </Base>
