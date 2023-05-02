@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -9,8 +10,18 @@ from .models import Posts
 
 
 class ListAllPostAPIView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = PublicPostSerializer
-    queryset = Posts.objects.all()
+
+    def get_queryset(self):
+        my_filter_qs = Q()
+        for usr in self.request.user.following.all():
+            print(usr)
+            if usr:
+                my_filter_qs = my_filter_qs | Q(user=usr)
+        my_filter_qs = my_filter_qs | Q(user=self.request.user)
+        print(my_filter_qs)
+        return Posts.objects.filter(my_filter_qs)
 
 
 class PostCreateAPIView(CreateAPIView):
