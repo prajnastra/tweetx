@@ -10,6 +10,7 @@ import {
   Stack,
   HStack,
   Heading,
+  Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'
@@ -71,8 +72,24 @@ export default function PostCard({ access, post }: Props) {
         >
           {post.likes.length}
         </Button>
-        <IconButton variant="ghost" aria-label="Comment" icon={<FaComment />} />
-        <IconButton variant="ghost" aria-label="Share" icon={<FaShare />} />
+
+        <Tooltip label="Comment feature not implemented yet">
+          <IconButton
+            variant="ghost"
+            aria-label="Comment"
+            icon={<FaComment />}
+            isDisabled={true}
+          />
+        </Tooltip>
+
+        <Tooltip label="Share feature not implemented yet">
+          <IconButton
+            variant="ghost"
+            aria-label="Share"
+            icon={<FaShare />}
+            isDisabled={true}
+          />
+        </Tooltip>
       </Stack>
     </Box>
   )
